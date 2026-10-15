@@ -1,6 +1,6 @@
 import json, sys
 from playwright.sync_api import sync_playwright
-URL='http://localhost:8097/'
+URL=sys.argv[2] if len(sys.argv)>2 else 'http://localhost:8097/'
 JS=r"""
 async () => {
   const c = await __ln.convert(); const store = __ln.store;
@@ -20,11 +20,11 @@ async () => {
   const out = {};
   const report = (label, pages, rep) => { out[label] = { tree: tree(pages), report: rep && { images: rep.images, links: rep.links, missing: rep.missing, errors: rep.errors }, brokenInternalLinks: brokenLinks(pages), pages: Object.fromEntries(pages.map(p=>[p.title,{icon:p.icon, cover: p.cover ? p.cover.slice(0,22) : '', ...sum(p.content)}])) }; };
   // 1. Notion MD zip
-  let r = await c.importFiles([await fileOf('/test/fixtures/notion-md.zip','Export-7f3e.zip')]); report('notionMD', r.pages, r.report);
+  let r = await c.importFiles([await fileOf('test/fixtures/notion-md.zip','Export-7f3e.zip')]); report('notionMD', r.pages, r.report);
   // 2. Notion HTML zip-in-zip
-  let r2 = await c.importFiles([await fileOf('/test/fixtures/notion-html.zip','Export-html.zip')]); report('notionHTML', r2.pages, r2.report);
+  let r2 = await c.importFiles([await fileOf('test/fixtures/notion-html.zip','Export-html.zip')]); report('notionHTML', r2.pages, r2.report);
   // 3. plain md
-  let r3 = await c.importFiles([await fileOf('/test/fixtures/plain.md','plain.md')]); report('plainMD', r3.pages, r3.report);
+  let r3 = await c.importFiles([await fileOf('test/fixtures/plain.md','plain.md')]); report('plainMD', r3.pages, r3.report);
   // Round trips: put Notion MD import in the store under a fresh root, export, re-import
   const roots = r.pages.filter(p=>!p.parentId); await store.saveMany(r.pages);
   const travel = r.pages.find(p=>p.title==='Travel Plans');
