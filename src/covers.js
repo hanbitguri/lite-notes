@@ -1,0 +1,1 @@
+export const COVERS = { peach: 'linear-gradient(135deg,#FCE3D7,#F7C6D0)', mint: 'linear-gradient(135deg,#E3F4EC,#BFE6D6)', lav: 'linear-gradient(135deg,#ECE6FA,#D9CFF3)', butter: 'linear-gradient(135deg,#FDF6DA,#F8E7A8)', sky: 'linear-gradient(135deg,#E5F0FB,#C9DDF5)', sand: 'linear-gradient(135deg,#FAF7F2,#E8DCC8)' };
